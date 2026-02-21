@@ -5,7 +5,7 @@ class Play extends Phaser.Scene {
 
     create() {
         this.starfield = this.add.tileSprite(0, 0, 1080, 768, 'starfield',).setOrigin(0,0)
-        this.miner = this.add.tileSprite(leftLaneXPosition, 100, 100, 135, 'miner',).setOrigin(0.5,0.5)
+        this.miner = this.add.tileSprite(middleLaneXPosition, 100, 100, 135, 'miner',).setOrigin(0.5,0.5)
 
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
@@ -14,21 +14,20 @@ class Play extends Phaser.Scene {
 
     update() {
         if(Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            if(minerXposition == rightLANE) {
-                minerXposition = middleLANE
+            if(this.miner.x == rightLANE) {
+                this.miner.x = middleLANE
             }
-            if(minerXposition == middleLANE) {
-                minerXposition = leftLANE
+            else if(this.miner.x == middleLANE) {
+                this.miner.x = leftLANE
             }
         }
         if(Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
-            if(minerXposition == leftLANE) {
-                minerXposition = middleLANE
+            if(this.miner.x == leftLANE) {
+                this.miner.x = middleLANE
             }
-            if(minerXposition == middleLANE) {
-                minerXposition = rightLANE
+            else if(this.miner.x == middleLANE) {
+                this.miner.x = rightLANE
             }
         }
-        
     }
 }
