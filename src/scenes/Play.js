@@ -14,19 +14,19 @@ class Play extends Phaser.Scene {
 
     update() {
         if(Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            if(this.miner.x == rightLANE) {
-                this.miner.x = middleLANE
+            if(this.miner.x == rightLaneXPosition) {
+                this.miner.x = middleLaneXPosition
             }
-            else if(this.miner.x == middleLANE) {
-                this.miner.x = leftLANE
+            else if(this.miner.x == middleLaneXPosition) {
+                this.miner.x = leftLaneXPosition
             }
         }
         if(Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
-            if(this.miner.x == leftLANE) {
-                this.miner.x = middleLANE
+            if(this.miner.x == leftLaneXPosition) {
+                this.miner.x = middleLaneXPosition
             }
-            else if(this.miner.x == middleLANE) {
-                this.miner.x = rightLANE
+            else if(this.miner.x == middleLaneXPosition) {
+                this.miner.x = rightLaneXPosition
             }
         }
     }

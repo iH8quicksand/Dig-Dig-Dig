@@ -10,7 +10,7 @@ let config = {
 }
 let game = new Phaser.Game(config)
 // keybinds!
-let keyLEFT, keyRIGHT
+let keyLEFT, keyRIGHT, keySPACE
 
 let leftLaneXPosition = game.config.width * 1/4
 let middleLaneXPosition = game.config.width * 2/4
