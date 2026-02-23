@@ -4,8 +4,11 @@ class Menu extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('starfield', './assets/starfield.png')
-        this.load.image('miner', './assets/miner.png')
+        this.load.image('rock', './assets/backgrounds/rock.jpg')
+        this.load.spritesheet('shovel', '/assets/shovelsheet.png', {
+            frameWidth: 128,
+            frameHeight: 256
+        })
     }
 
     create() {

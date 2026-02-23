@@ -4,8 +4,8 @@ Dig Dig Dig!
 */
 let config = {
     type: Phaser.AUTO,
-    width: 1080,
-    height: 768,
+    width: 1024,
+    height: 1024,
     physics: {
         default: "arcade",
         arcade: {

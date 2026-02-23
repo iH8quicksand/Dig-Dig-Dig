@@ -4,36 +4,48 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-        this.starfield = this.add.tileSprite(0, 0, 1080, 768, 'starfield',).setOrigin(0,0)
-<<<<<<< HEAD
+        // define downward speed
+        this.scrollSpeed = 1
+        
+        this.background = this.add.tileSprite(0, 0, 1024, 1024, 'rock',).setOrigin(0,0)
+        this.shovel = this.add.sprite(middleLaneXPosition, 167, 'shovel').setOrigin(0.5, 0.5)
 
-        // add miner
-        this.miner = this.add.tileSprite(leftLaneXPosition, 80, 100, 135, 'miner',).setOrigin(0.5,0.5)
-=======
-        this.miner = this.add.tileSprite(middleLaneXPosition, 100, 100, 135, 'miner',).setOrigin(0.5,0.5)
+        // create shovel animation
+        this.anims.create({
+            key: 'digging',
+            frames: this.anims.generateFrameNumbers('shovel', { start: 1, end: 47 }),
+            frameRate: 8, // Adjust this to make the animation faster or slower
+            repeat: -1     // -1 tells it to loop forever
+        })
+
+        // 3. Play the animation!
+        this.shovel.play('digging');
 
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
+
     }
 
     update() {
+        // player movement
         if(Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            if(this.miner.x == rightLaneXPosition) {
-                this.miner.x = middleLaneXPosition
+            if(this.shovel.x == rightLaneXPosition) {
+                this.shovel.x = middleLaneXPosition
             }
-            else if(this.miner.x == middleLaneXPosition) {
-                this.miner.x = leftLaneXPosition
+            else if(this.shovel.x == middleLaneXPosition) {
+                this.shovel.x = leftLaneXPosition
+            }
+        } if(Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
+            if(this.shovel.x == leftLaneXPosition) {
+                this.shovel.x = middleLaneXPosition
+            }
+            else if(this.shovel.x == middleLaneXPosition) {
+                this.shovel.x = rightLaneXPosition
             }
         }
-        if(Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
-            if(this.miner.x == leftLaneXPosition) {
-                this.miner.x = middleLaneXPosition
-            }
-            else if(this.miner.x == middleLaneXPosition) {
-                this.miner.x = rightLaneXPosition
-            }
-        }
->>>>>>> c0904565e60a6ba708f7b63f84749bbcb3221c47
+
+        // background movement
+        this.background.tilePositionY += this.scrollSpeed
     }
 }
