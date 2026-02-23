@@ -8,18 +8,22 @@ class Play extends Phaser.Scene {
         this.scrollSpeed = 1
         
         this.background = this.add.tileSprite(0, 0, 1024, 1024, 'rock',).setOrigin(0,0)
-        this.shovel = this.add.sprite(middleLaneXPosition, 167, 'shovel').setOrigin(0.5, 0.5)
+        console.log(this.textures.get('shovelAtlas').getFrameNames());
+        this.shovel = this.add.sprite(middleLaneXPosition, 167, 'shovelAtlas', 'shovel0001').setOrigin(0.5, 0.5)
 
         // create shovel animation
         this.anims.create({
             key: 'digging',
-            frames: this.anims.generateFrameNumbers('shovel', { start: 1, end: 47 }),
-            frameRate: 8, // Adjust this to make the animation faster or slower
-            repeat: -1     // -1 tells it to loop forever
-        })
-
-        // 3. Play the animation!
-        this.shovel.play('digging');
+            frames: this.anims.generateFrameNames('shovelAtlas', {
+                prefix: 'shovel', 
+                suffix: '.png',   
+                start: 1,         
+                end: 46           
+            }),
+            frameRate: 24, 
+            repeat: -1
+        });
+        this.shovel.play('digging')
 
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)

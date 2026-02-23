@@ -5,10 +5,7 @@ class Menu extends Phaser.Scene {
 
     preload() {
         this.load.image('rock', './assets/backgrounds/rock.jpg')
-        this.load.spritesheet('shovel', '/assets/shovelsheet.png', {
-            frameWidth: 128,
-            frameHeight: 256
-        })
+        this.load.atlas('shovelAtlas', './assets/spritesheet(1).png', './assets/sprites.json')
     }
 
     create() {
