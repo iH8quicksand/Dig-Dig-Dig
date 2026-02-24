@@ -4,11 +4,17 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+        // add music
+        this.bgm = this.sound.add('bgm', { volume: 0.5, loop: true})
+        this.bgm.play()
+
+        //define how fast objects spawn. lower is more objects
+        this.spawnRate = 1400
         // define downward speed
-        this.scrollSpeed = 1
+        this.scrollSpeed = 1.5
         
         // create background and shovel
-        this.background = this.add.tileSprite(0, 0, 1024, 1024, 'rock',).setOrigin(0,0)
+        this.background = this.add.tileSprite(0, 0, 1024, 1024, 'background1',).setOrigin(0,0)
         this.shovel = this.add.sprite(middleLaneXPosition, 167, 'shovelAtlas', 'shovel0001').setOrigin(0.5, 0.5)
 
         // create shovel animation
@@ -34,7 +40,7 @@ class Play extends Phaser.Scene {
                 end: 46,        
                 zeroPad: 4
             }),
-            frameRate: 24, 
+            frameRate: 12, 
             repeat: -1
         });
 
@@ -63,7 +69,7 @@ class Play extends Phaser.Scene {
 
         // timer that calls spawn function
         this.spawnTimer = this.time.addEvent({
-            delay: 2800,
+            delay: this.spawnRate,
             callback: this.spawnItem,
             callbackScope: this,
             loop: true
@@ -75,7 +81,7 @@ class Play extends Phaser.Scene {
         this.oilCount = 0
 
         // add UI
-        textConfig = {
+        const textConfig = {
             fontFamily: 'Arial',
             fontSize: '28px',
             color: '#FFFFFF',
@@ -112,24 +118,28 @@ class Play extends Phaser.Scene {
         this.background.tilePositionY += this.scrollSpeed
 
         // update UI
-        this.meters += this.scrollSpeed / 10
+        this.meters += this.scrollSpeed / 200
         this.meterText.text = `Depth: ${Math.floor(this.meters)}m`
         this.oilText.text = `Oil: ${this.oilCount} gal`
 
         // loop over all items and update them
         for (let i = 0; i < this.activeItems.length; i++) {
-            let item =this.activeItems[i]
+            let item = this.activeItems[i]
 
             item.moveSpeed = this.scrollSpeed
             item.update()
 
-            if (this.checkCollision(this.shovel, item)) {
+            if (this.checkCollisionWithShovel(item)) {
                 if (item instanceof Oil) {
-                    this.collectOil
+                    this.collectOil()
                 } else if (item instanceof Bomb) {
                     console.log("BOOOOM!")
+                    this.sound.play('explosion')
+                    if (this.bgm) {
+                        this.bgm.stop()
+                    }
+                    this.scene.start('gameOverScene', { meters: Math.floor(this.meters) })
                 }
-
                 item.destroy()
                 this.activeItems.splice(i, 1)
                 i--
@@ -149,7 +159,7 @@ class Play extends Phaser.Scene {
 
         let startY = game.config.height + 100
 
-        let isBomb = Math.random() > 0.5
+        let isBomb = Math.random() > 0.4
 
         let newItem
 
@@ -163,16 +173,21 @@ class Play extends Phaser.Scene {
         this.activeItems.push(newItem)
     }
 
-    checkCollision(spriteA, spriteB) {
-        let boundsA = spriteA.getBounds()
-        let boundsB = spriteB.getBounds()
-        return Phaser.Geom.Intersects.RectangletoRectangle(boundsA, boundsB)
+    checkCollisionWithShovel(item) {
+        if (this.shovel.x == item.x) {
+            if (this.shovel.y-100 < item.y && item.y < this.shovel.y+150) {
+                return true
+            }
+        }
+        return false
     }
 
-    collection() {
+    collectOil() {
+        this.sound.play('drop')
         this.oilCount += 1
-        if (this.oilCount % 10 === 0) {
-            this.scrollSpeed += 0.1
+        if (this.oilCount % 1 === 0) {
+            this.scrollSpeed += 0.05
+            this.spawnRate -= 100
             console.log(`speed: ${this.scrollSpeed}`)
         }
     }

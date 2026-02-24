@@ -1,6 +1,13 @@
 /* 
 Shiloh Sharmahd
 Dig Dig Dig!
+
+I looked beyond in class code examples with my obstacle management system.
+I kept an array of every obstacle on screen, which let loop over every object 
+to update them, and have a dynamic amount of obstacles onscreen at once.
+
+I am very pleased with the aesthetic of my sprites. I animated, rendered, and shaded the 3d models in blender.
+It took me way to long to get the texture atlas working, but it was worth it!
 */
 let config = {
     type: Phaser.AUTO,
@@ -12,7 +19,7 @@ let config = {
             debug: true
         }
     },
-    scene: [ Menu, Play ]
+    scene: [ Menu, Play, GameOver ]
 }
 let game = new Phaser.Game(config)
 // keybinds!
