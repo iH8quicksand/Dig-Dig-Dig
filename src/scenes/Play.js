@@ -8,7 +8,6 @@ class Play extends Phaser.Scene {
         this.scrollSpeed = 1
         
         this.background = this.add.tileSprite(0, 0, 1024, 1024, 'rock',).setOrigin(0,0)
-        console.log(this.textures.get('shovelAtlas').getFrameNames());
         this.shovel = this.add.sprite(middleLaneXPosition, 167, 'shovelAtlas', 'shovel0001').setOrigin(0.5, 0.5)
 
         // create shovel animation
@@ -16,9 +15,9 @@ class Play extends Phaser.Scene {
             key: 'digging',
             frames: this.anims.generateFrameNames('shovelAtlas', {
                 prefix: 'shovel', 
-                suffix: '.png',   
                 start: 1,         
-                end: 46           
+                end: 46,        
+                zeroPad: 4
             }),
             frameRate: 24, 
             repeat: -1
