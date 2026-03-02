@@ -9,9 +9,9 @@ class Play extends Phaser.Scene {
         this.bgm.play()
 
         //define how fast objects spawn. lower is more objects
-        this.spawnRate = 1400
+        this.spawnRate = 1500
         // define downward speed
-        this.scrollSpeed = 1.5
+        this.scrollSpeed = 3.0
         
         // create background and shovel
         this.background = this.add.tileSprite(0, 0, 1024, 1024, 'background1',).setOrigin(0,0)
