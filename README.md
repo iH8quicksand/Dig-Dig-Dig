@@ -4,8 +4,7 @@ An endless runner where you pilot a shovel deeper and deeper underground. Throug
 
 **[▶ Play it here](https://ih8quicksand.github.io/Dig-Dig-Dig/)**
 
-*(screenshot here)*
-
+![Gameplay](screenshots/screenshot.png)
 
 ## How to Play
 
