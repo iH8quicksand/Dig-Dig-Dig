@@ -3,15 +3,26 @@ class Play extends Phaser.Scene {
         super("playScene")
     }
 
+    init() {
+        // Define depth thresholds
+        this.MANTLE_DEPTH_START = 50 
+        this.CORE_DEPTH_START = 150
+        this.BEYOND_DEPTH_START = 250
+        
+        // Track the current layer to ensure we only change the background ONCE per layer
+        this.currentLayer = 'crust'
+    }
+
     create() {
         // add music
         this.bgm = this.sound.add('bgm', { volume: 0.5, loop: true})
         this.bgm.play()
 
         //define how fast objects spawn. lower is more objects
-        this.spawnRate = 1500
+        this.spawnPeriod = 1500
         // define downward speed
         this.scrollSpeed = 3.0
+
         
         // create background and shovel
         this.background = this.add.tileSprite(0, 0, 1024, 1024, 'background1',).setOrigin(0,0)
@@ -69,7 +80,7 @@ class Play extends Phaser.Scene {
 
         // timer that calls spawn function
         this.spawnTimer = this.time.addEvent({
-            delay: this.spawnRate,
+            delay: this.spawnPeriod,
             callback: this.spawnItem,
             callbackScope: this,
             loop: true
@@ -93,7 +104,8 @@ class Play extends Phaser.Scene {
         }
 
         this.meterText = this.add.text(20, 20, 'Depth: 0m', textConfig).setDepth(10)
-        this.oilText = this.add.text(20, 64, 'Oil: 0 gal', textConfig).setDepth(10)
+        this.oilText = this.add.text(20, 60, 'Oil: 0 gal', textConfig).setDepth(10)
+        this.layerText = this.add.text(20, 100, 'layer: crust', textConfig).setDepth(10)
     }
 
     update() {
@@ -121,6 +133,25 @@ class Play extends Phaser.Scene {
         this.meters += this.scrollSpeed / 200
         this.meterText.text = `Depth: ${Math.floor(this.meters)}m`
         this.oilText.text = `Oil: ${this.oilCount} gal`
+
+        // check for layer changes
+        if (this.meters >= this.MANTLE_DEPTH_START && this.currentLayer === 'crust') {
+            this.currentLayer = 'mantle';
+            // Change the texture instead of adding a new sprite
+            this.background.setTexture('background2'); 
+            // Update the text property, not the whole object
+            this.layerText.text = 'Layer: Mantle'; 
+        } 
+        else if (this.meters >= this.CORE_DEPTH_START && this.currentLayer === 'mantle') {
+            this.currentLayer = 'core';
+            this.background.setTexture('background3'); // Assuming you have a 3rd background
+            this.layerText.text = 'Layer: Core';
+        }
+        else if (this.meters >= this.BEYOND_DEPTH_START && this.currentLayer === 'core') {
+            this.currentLayer = 'beyond';
+            this.background.setTexture('background4'); // Assuming you have a 4th background asset loaded
+            this.layerText.text = 'Layer: Beyond';
+        }
 
         // loop over all items and update them
         for (let i = 0; i < this.activeItems.length; i++) {
@@ -159,7 +190,7 @@ class Play extends Phaser.Scene {
 
         let startY = game.config.height + 100
 
-        let isBomb = Math.random() > 0.4
+        let isBomb = Math.random() > 0.6
 
         let newItem
 
@@ -186,8 +217,8 @@ class Play extends Phaser.Scene {
         this.sound.play('drop')
         this.oilCount += 1
         if (this.oilCount % 1 === 0) {
-            this.scrollSpeed += 0.05
-            this.spawnRate -= 100
+            this.scrollSpeed += 0.2
+            this.spawnPeriod -= 100
             console.log(`speed: ${this.scrollSpeed}`)
         }
     }

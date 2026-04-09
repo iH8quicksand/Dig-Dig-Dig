@@ -5,7 +5,10 @@ class Menu extends Phaser.Scene {
 
     preload() {
         this.load.image('menu', './assets/DigDigDigMenu.png')
-        this.load.image('background1', './assets/backgrounds/rock.jpg')
+        this.load.image('background1', './assets/backgrounds/dirt.jpg')
+        this.load.image('background2', './assets/backgrounds/rock.jpg')
+        this.load.image('background3', './assets/backgrounds/plastered_stone.jpg')
+        this.load.image('background4', './assets/backgrounds/climbing_wall.jpg')
         this.load.atlas('shovelAtlas', './assets/spritesheet.png', './assets/sprites.json')
         this.load.atlas('tntAtlas', './assets/tntspritesheet.png', './assets/tntsprites.json')
         this.load.atlas('oilAtlas', './assets/oilspritesheet.png', './assets/oilsprites.json')
