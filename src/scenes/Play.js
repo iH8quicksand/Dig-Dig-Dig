@@ -8,8 +8,6 @@ class Play extends Phaser.Scene {
         this.MANTLE_DEPTH_START = 50 
         this.CORE_DEPTH_START = 150
         this.BEYOND_DEPTH_START = 250
-        
-        // Track the current layer to ensure we only change the background ONCE per layer
         this.currentLayer = 'crust'
     }
 
@@ -144,12 +142,12 @@ class Play extends Phaser.Scene {
         } 
         else if (this.meters >= this.CORE_DEPTH_START && this.currentLayer === 'mantle') {
             this.currentLayer = 'core';
-            this.background.setTexture('background3'); // Assuming you have a 3rd background
+            this.background.setTexture('background3'); 
             this.layerText.text = 'Layer: Core';
         }
         else if (this.meters >= this.BEYOND_DEPTH_START && this.currentLayer === 'core') {
             this.currentLayer = 'beyond';
-            this.background.setTexture('background4'); // Assuming you have a 4th background asset loaded
+            this.background.setTexture('background4'); 
             this.layerText.text = 'Layer: Beyond';
         }
 
